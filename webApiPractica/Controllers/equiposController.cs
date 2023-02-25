@@ -32,6 +32,19 @@ namespace webApiPractica.Controllers
         }
 
         [HttpGet]
+        [Route("Getbyid/{id}")]
+        public IActionResult Get(int id)
+        {
+            List<equipos> listadoEquipo = (from e in _equiposContexto.equipos select e).ToList();
+
+            if (listadoEquipo.Count() == 0)
+            {
+                return NotFound();
+            }
+            return Ok(listadoEquipo);
+        }
+
+        [HttpGet]
         [Route("Find/{filtro}")]
         public IActionResult FindByDescription(string filtro) 
         {

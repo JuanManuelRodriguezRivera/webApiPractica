@@ -22,26 +22,48 @@ namespace webApiPractica.Controllers
         [Route("GetAll")]
         public IActionResult Get()
         {
-            List<equipos> listadoEquipo = (from e in _equiposContexto.equipos select e).ToList();
+            var listadoEquipos =(from e in _equiposContexto.equipos
+                          join m in _equiposContexto.marcas on e.marcas_id equals m.id_marcas select new
+                          {
+                              e.id_equipos,
+                              e.nombre,
+                              e.descripcion,
+                              e.tipo_equipo_id,
+                              e.marcas_id,
+                              m.nombre_marca
+                          }).ToList();
 
-            if (listadoEquipo.Count() == 0)
+
+            if (listadoEquipos.Count() == 0)
             {
                 return NotFound();
             }
-            return Ok(listadoEquipo);
+            return Ok(listadoEquipos);
         }
 
         [HttpGet]
         [Route("Getbyid/{id}")]
         public IActionResult Get(int id)
         {
-            List<equipos> listadoEquipo = (from e in _equiposContexto.equipos select e).ToList();
+            var listEquipos = (from e in _equiposContexto.equipos
+                           join m in _equiposContexto.marcas on e.marcas_id equals m.id_marcas
+                           where e.id_equipos == id 
+                           select new
+                           {
+                               e.id_equipos,
+                               e.nombre,
+                               e.descripcion,
+                               e.tipo_equipo_id,
+                               e.marcas_id,
+                               m.nombre_marca
+                           }).ToList();
 
-            if (listadoEquipo.Count() == 0)
+
+            if (listEquipos.Count() == 0)
             {
                 return NotFound();
             }
-            return Ok(listadoEquipo);
+            return Ok(listEquipos);
         }
 
         [HttpGet]

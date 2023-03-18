@@ -10,5 +10,7 @@ namespace webApiPractica.Models
             
         }
         public DbSet<equipos> equipos { get; set;}
+
+        public DbSet<marcas> marcas { get; set; }
     }
 }
